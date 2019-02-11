@@ -5,7 +5,7 @@ import os
 
 
 app = Flask(__name__, template_folder="static/")
-app.secret_key = 'ldkjf94ff2f-fdskn@sdf23@f$fsg'
+app.secret_key = 'super-duper-secret-key'
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -29,7 +29,7 @@ def get_image(filename):
 def upload_file():
     if("username" not in request.form or "password" not in request.form):
         return render_template('errors/401.html'), 401
-        
+
     username = request.form['username']
     password = request.form['password']
     if ((username != "andreas") or (password != "super-secret")):
