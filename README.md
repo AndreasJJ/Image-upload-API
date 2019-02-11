@@ -1,14 +1,19 @@
 # Setup Guide
+## Server setup
 * ```sudo apt ```
 * ```sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools```
 * ```sudo apt install python3-venv```
+
+## Application setup
 * ```mkdir hoster``` (make sure you are in /home)
 * ```cd hoster```
 * ```python3.6 -m venv host```
 * ```source host/bin/activate```
 * ```pip install wheel```
 * ```pip install uwsgi flask```
-* wget and unzip this repo and extract the files out of the folder and into the "hoster" directory
+* ```wget``` and unzip this repo and extract the files out of the folder and into the "hoster" directory
+
+## Creating a systemd Unit File
 * ```sudo nano /etc/systemd/system/host.service```
 ```
 [Unit]
@@ -28,6 +33,8 @@ WantedBy=multi-user.target
 * ```sudo systemctl start host```
 * ```sudo systemctl enable host```
   * You can check the status of it with ```sudo systemctl status myproject```
+
+## Configuring Nginx to Proxy Requests
 * ```sudo apt-get install nginx```
 * ```sudo nano /etc/nginx/sites-available/host```
 ```
@@ -45,6 +52,8 @@ server {
   * ```sudo nginx -t``` to check for syntax errors
 * ```sudo systemctl restart nginx```
 * ```sudo ufw allow 'Nginx Full'```
+
+## SSL Certificate and HTTPS support
 * ```sudo add-apt-repository ppa:certbot/certbot```
 * ```sudo apt install python-certbot-nginx```
 * ```sudo certbot --nginx -d your_domain -d www.your_domain```
