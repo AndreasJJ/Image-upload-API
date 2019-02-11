@@ -85,8 +85,9 @@ def upload_file():
         new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
         #Save the file
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+        size = os.stat('uploads/'+new_filename).st_size
         #Save link in database
-        cur = get_db().execute('INSERT INTO links(link, username) VALUES(?,?);', (str(new_filename), str(user[0]),))
+        cur = get_db().execute('INSERT INTO links(link, username, size) VALUES(?,?,?);', (str(new_filename), str(user[0]), size))
         get_db().commit()
         cur.close()
         #Redirect to link to the newly uploaded file
