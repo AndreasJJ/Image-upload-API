@@ -16,6 +16,8 @@ UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'mp4', 'webm'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#Max upload size is 200 MB
+app.config['MAX_CONTENT_LENGTH'] = 200000000
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -79,6 +81,7 @@ def upload_file():
         return 'test2'
     if file and allowed_file(file.filename):
         #Get the new filename
+        print(file)
         new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
         #Save the file
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
