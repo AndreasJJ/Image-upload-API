@@ -66,3 +66,11 @@ server {
 * ```sudo ufw delete allow 'Nginx HTTP'```
 
 Source: https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uswgi-and-nginx-on-ubuntu-18-04
+
+# Database Structure
+**Database software:** SQLite
+**Database location:** database/users.db
+
+![alt text](https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Database Structure.png)
+
+

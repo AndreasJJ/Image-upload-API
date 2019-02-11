@@ -2,7 +2,12 @@ from flask import Flask, render_template, request, flash, redirect, url_for, sen
 from werkzeug.utils import secure_filename
 import uuid
 import os
+import sqlite3
+from flask import g
 
+##############
+# App Config #
+##############
 
 app = Flask(__name__, template_folder="static/")
 app.secret_key = 'super-duper-secret-key'
@@ -15,6 +20,28 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+############
+# Database #
+############
+
+DATABASE = './database/users.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+###########
+# Routing #
+###########
 
 @app.route('/')
 def index():
@@ -32,7 +59,13 @@ def upload_file():
 
     username = request.form['username']
     password = request.form['password']
-    if ((username != "andreas") or (password != "super-secret")):
+
+    #Check if the user exists with the username and password provided
+    cur = get_db().execute('SELECT username, password FROM users WHERE username=? AND password=?;', (username, password,))
+    user = cur.fetchone()
+    cur.close()
+
+    if (user is None):
         return render_template('errors/401.html'), 401
 
     if 'file' not in request.files:
@@ -45,10 +78,16 @@ def upload_file():
         flash('No selected file')
         return 'test2'
     if file and allowed_file(file.filename):
+        #Get the new filename
         new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
+        #Save the file
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+        #Save link in database
+        cur = get_db().execute('INSERT INTO links(link, username) VALUES(?,?);', (str(new_filename), str(user[0]),))
+        get_db().commit()
+        cur.close()
+        #Redirect to link to the newly uploaded file
         return redirect(url_for('get_image',filename=new_filename))
-        #return 'test3'
 
 
 ##################
