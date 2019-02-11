@@ -45,7 +45,7 @@ def upload_file():
         flash('No selected file')
         return 'test2'
     if file and allowed_file(file.filename):
-        new_filename = str(uuid.uuid4()) + str(os.path.splitext(secure_filename(file.filename))[1]);
+        new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
         return redirect(url_for('get_image',filename=new_filename))
         #return 'test3'
