@@ -13,6 +13,11 @@
 * ```pip install uwsgi flask```
 * ```wget``` and unzip this repo and extract the files out of the folder and into the "hoster" directory
 
+### Credentials
+* Go to router.py
+* Change app.secret_key to your own private key
+* Change ```(username != "andreas") or (password != "super-secret")``` to your own username and password (this is temporary til a database, hashing and encryption is added)
+
 ## Creating a systemd Unit File
 * ```sudo nano /etc/systemd/system/host.service```
 ```
