@@ -69,6 +69,7 @@ Source: https://www.digitalocean.com/community/tutorials/how-to-serve-flask-appl
 
 # Database Structure
 **Database software:** SQLite
+
 **Database location:** database/users.db
 
 ![Database Structure](https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Database%20Structure.png)
