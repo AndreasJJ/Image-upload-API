@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, send_from_directory
+from werkzeug import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import uuid
 import os
@@ -49,6 +50,26 @@ def close_connection(exception):
 def index():
     return render_template('errors/401.html'), 401
 
+@app.route('/dashboard')
+def dashboard():
+    return ''
+
+@app.route('/login')
+def login():
+    return ''
+
+@app.route('/register')
+def register():
+    return ''
+
+@app.route('/registerUser')
+def register_user():
+    return ''
+
+@app.route('/loginUser')
+def login_user():
+    return ''
+
 @app.route('/<filename>')
 def get_image(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
@@ -63,11 +84,11 @@ def upload_file():
     password = request.form['password']
 
     #Check if the user exists with the username and password provided
-    cur = get_db().execute('SELECT username, password FROM users WHERE username=? AND password=?;', (username, password,))
+    cur = get_db().execute('SELECT password FROM users WHERE username=?;', (username,))
     user = cur.fetchone()
     cur.close()
 
-    if (user is None):
+    if (not check_password_hash(user[0], password)):
         return render_template('errors/401.html'), 401
 
     if 'file' not in request.files:
@@ -81,7 +102,6 @@ def upload_file():
         return 'test2'
     if file and allowed_file(file.filename):
         #Get the new filename
-        print(file)
         new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
         #Save the file
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
