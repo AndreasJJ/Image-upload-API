@@ -10,7 +10,21 @@
 * ```pip install uwsgi flask```
 * wget and unzip this repo and extract the files out of the folder and into the "hoster" directory
 * ```sudo nano /etc/systemd/system/host.service```
-  * You only need to do this if you want to run it on another user than root, store it in another directory or changed the name of it.
+```
+[Unit]
+Description=uWSGI instance to serve myproject
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/hoster
+Environment="PATH=/home/hoster/bin"
+ExecStart=/home/hoster/bin/uwsgi --ini myproject.ini
+
+[Install]
+WantedBy=multi-user.target
+```
 * ```sudo systemctl start host```
 * ```sudo systemctl enable host```
   * You can check the status of it with ```sudo systemctl status myproject```
