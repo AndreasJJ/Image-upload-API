@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Register</title>
+	<link rel="stylesheet" type="text/css" href="static/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,500" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</head>
+<body>
+	<div id="container">
+		<div id="wrapper">
+			<form id="register-form" action="/register" method="post">
+				<div id="logo">
+					<img src="static/assets/logo.svg" />
+				</div>
+				<h1 id="title">Register</h1>
+				<div id="username-wrapper">
+					<span>Username</span>
+					<div class="input-wrapper">
+						<i class="fas fa-user"></i>
+						<input id="username-input" type="text" name="username" placeholder="Type in username" minlength="3" maxlength="12" required>
+					</div>
+				</div>
+				<div class="password-wrapper">
+					<span>Password</span>
+					<div class="input-wrapper">
+						<i class="fas fa-unlock-alt"></i>
+						<input id="password-input" type="password" name="password" placeholder="Type in password" minlength="6" maxlength="32" required>
+					</div>
+				</div>
+				<div class="password-wrapper">
+					<span>Confirm Password</span>
+					<div class="input-wrapper">
+						<i class="fas fa-unlock-alt"></i>
+						<input id="confirm-password-input" type="password" name="confirm_password" placeholder="Confirm password" minlength="6" maxlength="32" required>
+					</div>
+				</div>
+				<div id="register-button-wrapper">
+					<button id="register-button">
+							Register
+					</button>
+				</div>
+				<div id="footer"></div>
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript" src="static/register/register.js"></script>
+</body>
+</html>

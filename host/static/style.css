@@ -1,0 +1,143 @@
+html, body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	font-family: Poppins-Regular, sans-serif;
+}
+#container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-image: url("assets/bg4.jpg");
+    background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+}
+#wrapper {
+    width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 55px 55px 37px 55px;
+    background: #9152f8;
+    background: -webkit-linear-gradient(top, #f87d72, #b224ef);
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+#login-form {
+	width: 100%;
+}
+
+#register-form {
+	width: 100%;
+}
+
+#logo {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#logo img {
+	width: 120px;
+    height: 120px;
+}
+
+#title {
+    font-size: 30px;
+    color: #fff;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    display: block;
+}
+
+.input-wrapper {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#username-wrapper {
+	width: 100%;
+    position: relative;
+    border-bottom: 2px solid rgba(255,255,255,0.24);
+    margin-bottom: 30px;
+    color: white;
+}
+
+.password-wrapper {
+	width: 100%;
+    position: relative;
+    border-bottom: 2px solid rgba(255,255,255,0.24);
+    margin-bottom: 30px;
+    color: white;
+}
+
+#password-input, #confirm-password-input, #username-input {
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    padding: 0 5px 0 38px;
+    border: none;
+    outline: none;
+}
+
+#password-input::placeholder, #confirm-password-input::placeholder, #username-input::placeholder {
+    color: #fff;
+}
+
+
+#login-button-wrapper {
+	width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#login-button {
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 120px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+#register-button-wrapper {
+	width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#register-button {
+    font-size: 16px;
+    color: #555555;
+    line-height: 1.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    min-width: 120px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+#footer {
+	text-align: center;
+	padding-top: 90px;
+}

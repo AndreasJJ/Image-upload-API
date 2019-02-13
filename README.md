@@ -1,3 +1,5 @@
+pip install Flask-Migrate
+
 # Setup Guide
 ## Server setup
 * ```sudo apt ```
