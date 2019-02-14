@@ -296,7 +296,10 @@ html, body {
 
 #links-content {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);;
+    grid-template-columns: repeat(auto-fit, 200px);
+    justify-content: space-evenly;
+    grid-row-gap: 5px;
+    padding-top: 5px;
 }
 
 #links-content img {
@@ -307,7 +310,8 @@ html, body {
     height: 100%;
     padding: 5px;
     box-sizing: border-box;
-    border-right: 1px #e6e6e6 solid;
+    border: 1px #e6e6e6 solid;
+    border-left: 1px #e6e6e6 solid;
     border-bottom: 1px #e6e6e6 solid;
 }
 #links-thumbnail {
