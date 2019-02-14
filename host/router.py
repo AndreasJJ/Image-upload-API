@@ -19,7 +19,7 @@ def allowed_file(filename):
 # Index routing. Returns 401 Access denied.
 @app.route('/')
 def index():
-    return render_template('errors/401.html'), 401
+    return redirect(url_for('dashboard'))
 
 # Dashboard routing
 @app.route('/dashboard')
