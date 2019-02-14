@@ -1,0 +1,11 @@
+﻿{
+  "Name": "your-server-url.com",
+  "RequestType": "POST",
+  "RequestURL": "https://your-server-url.no/upload",
+  "FileFormName": "file",
+  "Arguments": {
+    "username": "your-username",
+    "password": "your-password"
+  },
+  "ResponseType": "RedirectionURL"
+}
