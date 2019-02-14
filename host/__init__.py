@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
 
-app = Flask(__name__, template_folder="static/")
+app = Flask(__name__)
 app.secret_key = 'super-duper-secret-key'
 
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)),'uploads')

@@ -1,0 +1,53 @@
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - Dashboard</title>
+      {% else %}
+      <title>Welcome to The Dashboard</title>
+      {% endif %}
+      <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:400,500" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="dashboard-wrapper">
+          <div id="dashboard-grid">
+            <aside id="dashboard-side-menu">
+              <div id="dashboard-side-menu-grid">
+                <div id="dashboard-side-profile">
+                    <img id="dashboard-profile-image" src="{{profile_picture}}"/>
+                    <span>{{ username }}</span>
+                </div>
+                <div id="dashboard-side-nav">
+                  <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    <li><a href="{{ url_for('dashboard_links') }}">Images</a></li>
+                    <li>Placeholder</li>
+                    <li>Placeholder</li>
+                  </ul>
+                </div>
+              </div>
+            </aside>
+            <header id="dashboard-header-menu">
+              <div id="dashboard-collapse" onclick="onClickCollapseButton()">
+                <i class="fas fa-bars"></i>
+              </div>
+              <div id="dashboard-search">
+                <i class="fas fa-search"></i>
+                <input type="search" id="dashboard-search-input" name="search" placeholder="Search for something!">
+              </div>
+              <div id="dashboard-logout" onclick="onClickLogoutButton()">
+                <i class="fas fa-sign-out-alt"></i>
+              </div>
+            </header>
+            <section id="dashboard-content">
+              {% block content %}
+
+              {% endblock %}
+            </section>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+        <script type="text/javascript" src="/static/js/dashboard.js"></script>
+    </body>
+</html>

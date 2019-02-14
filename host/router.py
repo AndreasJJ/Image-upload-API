@@ -1,9 +1,10 @@
 from flask import render_template, request, flash, redirect, url_for, send_from_directory, g
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
-import uuid, os, re
+import uuid, os, re, json
 from host import app, db
 from host.models import User, link
+from sqlalchemy.sql import func
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'mp4', 'webm'])
 
@@ -24,7 +25,16 @@ def index():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return ''
+    return render_template('dashboard/overview.html', username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png")
+
+# Dashboard routing
+@app.route('/dashboard/links')
+@login_required
+def dashboard_links():
+    links = []
+    for link in current_user.links:
+        links.append(link.url)
+    return render_template('dashboard/links.html', username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png", links=links)
 
 # Login routing
 @app.route('/login', methods=['GET', 'POST'])
@@ -86,7 +96,7 @@ def register():
     else:
         return render_template('register/register.html')
     
-
+# Form validation function
 def validate_form(username, password, confirm_password):
     print(username, password, confirm_password)
     if (password != confirm_password):
@@ -105,6 +115,27 @@ def validate_form(username, password, confirm_password):
         print("error5")
         return False
     return True
+
+# API for getting various information about the user.
+@app.route('/api', methods=['GET'])
+@login_required
+def api():
+    data = request.args.get('data');
+    if(data is None):
+        return render_template('errors/400.html'), 400
+    if(data == "storage_unused"):
+        return json.dumps({'unused': current_user.storage_space })
+    if(data == "storage_used"):
+        size = 0
+        for link in current_user.links:
+            size += link.size
+        return json.dumps({'used': size})
+    if(data == "links"):
+        links = []
+        for link in current_user.links:
+            links.append(link.url)
+        return json.dumps({'links': links})
+    return render_template('errors/400.html'), 400
 
 # Upload API for uploading images or videos
 @app.route('/upload', methods=['POST'])
@@ -137,7 +168,7 @@ def upload_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
         size = os.stat(os.path.join(app.config['UPLOAD_FOLDER'],new_filename)).st_size
         #Save link in 
-        new_link = link(url=new_filename, user_id=user.get_id(), size=size)
+        new_link = link(url=new_filename, user_id=user.id, size=size)
         db.session.add(new_link)
         db.session.commit()
         #Redirect to link to the newly uploaded file
@@ -164,7 +195,7 @@ def unauthorized_access(error):
 
 # 404 Error handler
 @app.errorhandler(400)
-def not_found_error(error):
+def bad_request(error):
     return render_template('errors/400.html'), 400
 
 # 500 Error handler
