@@ -76,9 +76,11 @@ window.onload = function() {
 		  }
 		});
 		getStorageSpace.then((storage_space) => {
+			storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]/Math.pow(1024,2)]
 			let graphColor
 			let graphLabel
 			let text
+			console.log(storage_space[1])
 			if(storage_space[1] != null) {
 				graphColor  = ["#b224ef", "#cccccc"]
 				graphLabel = ['Used Storage Space', 'Unused Storage Space']
@@ -104,7 +106,8 @@ window.onload = function() {
 					maintainAspectRatio: false,
 					tooltips: {
 					    callbacks: {
-					      label: (item, data) => `${data.datasets[item.datasetIndex].data[0]} B`,
+					      label: (item, data) => `${data.datasets[item.datasetIndex].data[item.index].toFixed(2)} MB`,
+
 					    }
 					},
 					elements: {
