@@ -1,3 +1,6 @@
+# @author Andreas Jensen Jonassen
+
+# @description Imports
 from flask import render_template, request, flash, redirect, url_for, send_from_directory, g
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
@@ -6,8 +9,8 @@ from host import app, db
 from host.models import User, link
 from sqlalchemy.sql import func
 
+# @description Allowed file extensions and function to check, for the file upload.
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'mp4', 'webm'])
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -16,7 +19,7 @@ def allowed_file(filename):
 # Routing #
 ###########
 
-# Index routing. Returns 401 Access denied.
+# Index routing
 @app.route('/')
 def index():
     return redirect(url_for('dashboard'))
@@ -72,26 +75,33 @@ def logout():
 # Register routing
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    # Check if user is logged in
     if current_user.is_authenticated:
         return redirect(url_for('dashboard'))
-
+    # If POST Request => Register
     if request.method == 'POST':
+        # Check if the form contains the required credentials
         if("username" not in request.form or "password" not in request.form or "confirm_password" not in request.form):
             flash('Invalid username or password')
             return redirect(url_for('register'))
+        # Get the credentials
         username = request.form['username']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
+        # Validates the credentials and either registers them or sends an error.
         if(validate_form(username, password, confirm_password)):
             user = User(username=username)
             user.set_password(password)
             db.session.add(user)
             db.session.commit()
+            # Flash confirmation of registration
             flash('Congratulations, you are now a registered user!')
+            # Redirect to login after registration
             return redirect(url_for('login'))
         else:
+            # Flash error
             flash('Invalid username or password')
-            print("test2")
+            # Redirect them back to register
             return redirect(url_for('register'))
     else:
         return render_template('register/register.html')
@@ -140,26 +150,35 @@ def api():
 # Upload API for uploading images or videos
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    # Check if the request form contains credentials
     if("username" not in request.form or "password" not in request.form):
         return render_template('errors/401.html'), 401
 
+    # Get credentials
     username = request.form['username']
     password = request.form['password']
 
+    # Query to database
     user = User.query.filter_by(username=username).first()
     # Check if user exists and if correct password
     if user is None or not user.check_password(password):
         return render_template('errors/401.html'), 401
-
+    # Check if the request contain a file named file
     if 'file' not in request.files:
         flash('No file part')
+        # TODO REMOVE
         return 'test1'
 
+    # Get file
     file = request.files['file']
 
+    # If file is empty
     if file.filename == '':
         flash('No selected file')
+        # TODO REMOVE
         return 'test2'
+    # Save file, get uuid filename, get size and save the info in the database
+    # Before redirecting them to the image
     if file and allowed_file(file.filename):
         #Get the new filename
         new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);

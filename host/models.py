@@ -1,8 +1,12 @@
+# @author Andreas Jensen Jonassen
+
+# @description Imports
 from host import db, login
 from werkzeug import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 
+# @class The user database model
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
@@ -20,10 +24,12 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)   
 
+# @description loader function for login.
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+# @class The link database model
 class link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(140))
