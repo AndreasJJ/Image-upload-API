@@ -20,8 +20,16 @@
                 </div>
                 <div id="dashboard-side-nav">
                   <ul>
-                    <li><a href="{{ url_for('dashboard') }}">Home</a></li>
-                    <li><a href="{{ url_for('dashboard_links') }}">Images</a></li>
+                    {% if page == "Home" %}
+                      <li class="side-nav-active"><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    {% else %}
+                      <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                    {% endif %}
+                    {% if page == "Images" %}
+                      <li class="side-nav-active"><a href="{{ url_for('dashboard_links') }}">Images</a></li>
+                    {% else %}
+                      <li><a href="{{ url_for('dashboard_links') }}">Images</a></li>
+                    {% endif %}
                   </ul>
                 </div>
               </div>

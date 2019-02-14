@@ -28,7 +28,7 @@ def index():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard/overview.html', username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png")
+    return render_template('dashboard/overview.html', page="Home", username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png")
 
 # Dashboard routing
 @app.route('/dashboard/links')
@@ -37,7 +37,7 @@ def dashboard_links():
     links = []
     for link in current_user.links:
         links.append(link.url)
-    return render_template('dashboard/links.html', username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png", links=links)
+    return render_template('dashboard/links.html', page="Images", username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png", links=links)
 
 # Login routing
 @app.route('/login', methods=['GET', 'POST'])

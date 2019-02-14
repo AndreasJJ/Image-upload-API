@@ -188,6 +188,7 @@ html, body {
     grid-row-end: 3;
     width: 100%;
     height: 100%;
+    overflow: scroll;
 }
 
 #dashboard-side-menu-grid {
@@ -217,7 +218,7 @@ html, body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px 0px 10px 0px;
+    text-align: center;
 }
 
 #dashboard-side-nav ul {
@@ -227,18 +228,25 @@ html, body {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     padding-inline-start: 0px;
+    width: 100%;
 }
 
 #dashboard-side-nav a {
-    color: #ffffff;
+    color: #94a0b3;
+    text-decoration: none;
 }
 
 #dashboard-side-nav a:visited {
-    color: red;
+    color: #94a0b3;
 }
 
 #dashboard-side-nav ul li {
-    margin-bottom: 15px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.side-nav-active {
+    background-color: #282f3d;
 }
 
 #dashboard-header-menu {
@@ -281,6 +289,28 @@ html, body {
 }
 
 .content {
+    padding: 25px; 
+    box-sizing: content-box;
+    height: -webkit-fill-available;
+}
+
+#links-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);;
+}
+
+#links-content img {
+    object-fit: cover;
+    max-width: 100%;
+    min-width: 100%;
     width: 100%;
     height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    border-right: 1px #e6e6e6 solid;
+    border-bottom: 1px #e6e6e6 solid;
+}
+#links-thumbnail {
+    width: 200px;
+    height: 200px;
 }
