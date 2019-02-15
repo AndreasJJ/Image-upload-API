@@ -54,16 +54,20 @@ def login():
     if request.method == 'POST':
         # Check if post contains form with username and password
         if("username" not in request.form or "password" not in request.form):
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'error')
             return redirect(url_for('login'))
         # Get credentials from form
         username = request.form['username']
         password = request.form['password']
         # Get user from database
-        user = User.query.filter_by(username=username).first()
+        try:
+            user = User.query.filter_by(username=username).first()
+        except exc.IntegrityError:
+            flash('Database Error, Please Try Again Later', 'error')
+            return redirect(url_for('login'))
         # Check if user exists and if correct password
         if user is None or not user.check_password(password):
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'error')
             return redirect(url_for('login'))
         # Log in users if everything is correct
         login_user(user, remember=False)
@@ -87,7 +91,7 @@ def register():
     if request.method == 'POST':
         # Check if the form contains the required credentials
         if("username" not in request.form or "password" not in request.form or "confirm_password" not in request.form):
-            flash('Invalid username or password')
+            flash('Username, Password and Confirmation Password was not supplied.', 'error')
             return redirect(url_for('register'))
         # Get the credentials
         username = request.form['username']
@@ -95,17 +99,27 @@ def register():
         confirm_password = request.form['confirm_password']
         # Validates the credentials and either registers them or sends an error.
         if(validate_form(username, password, confirm_password)):
-            user = User(username=username)
-            user.set_password(password)
-            db.session.add(user)
-            db.session.commit()
+            user = User.query.filter_by(username=username).first()
+            # Check if user exists
+            if user is not None:
+                flash('That Username Is Taken. Try Another', 'error')
+                return redirect(url_for('register'))
+            try:
+                user = User(username=username)
+                user.set_password(password)
+                db.session.add(user)
+                db.session.commit()
+            except exc.IntegrityError:
+                session.rollback()
+                flash('Database Error, Please Try Again Later', 'error')
+                return redirect(url_for('register'))
             # Flash confirmation of registration
-            flash('Congratulations, you are now a registered user!')
+            flash('Congratulations, you are now a registered user!', 'info')
             # Redirect to login after registration
             return redirect(url_for('login'))
         else:
             # Flash error
-            flash('Invalid username or password')
+            flash(get_form_validation_error(username, password, confirm_password), 'error')
             # Redirect them back to register
             return redirect(url_for('register'))
     else:
@@ -113,23 +127,30 @@ def register():
     
 # Form validation function
 def validate_form(username, password, confirm_password):
-    print(username, password, confirm_password)
     if (password != confirm_password):
-        print("error1")
         return False
     if (len(username) < 3 or len(username) > 16):
-        print("error2")
         return False
     if (len(password) < 6 or len(password) > 32):
-        print("error3")
         return False
     if (not bool(re.match("^[A-Za-z0-9_-]*$", username))):
-        print("error4")
         return False
     if (not bool(re.match(r"[A-Za-z0-9@#$%^&+=]{6,}", password))):
-        print("error5")
         return False
     return True
+
+def get_form_validation_error(username, password, confirm_password):
+    if (password != confirm_password):
+        return "Password and Confirmation Password Did Not Match"
+    if (len(username) < 3 or len(username) > 16):
+        return "The Username Length is Not Between 3 and 16 characters"
+    if (len(password) < 6 or len(password) > 32):
+        return "The Passwprd Length is Not Between 6 and 32 characters"
+    if (not bool(re.match("^[A-Za-z0-9_-]*$", username))):
+        return "The Username Can Only Contain Alphabetic Characters, Hyphens or Underscore"
+    if (not bool(re.match(r"[A-Za-z0-9@#$%^&+=]{6,}", password))):
+        return "The Password Contained An Illegal Character or Was Shorter Than 6 Characters"
+    return None
 
 # API for getting various information about the user.
 @app.route('/api', methods=['GET'])

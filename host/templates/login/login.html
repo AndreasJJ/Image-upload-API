@@ -14,6 +14,13 @@
 					<img src="static/assets/logo.svg" />
 				</div>
 				<h1 id="title">Login</h1>
+				{% with flashes = get_flashed_messages(with_categories=true) %}
+				  {% if flashes %}
+				    {% for category, flash in flashes %}
+				      <p class="message {{ category }}"><b>{{ flash }}</b></p>
+				    {% endfor %}
+				  {% endif %}
+				{% endwith %}
 				<div id="username-wrapper">
 					<span>Username</span>
 					<div class="input-wrapper">
