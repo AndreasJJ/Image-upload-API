@@ -203,32 +203,38 @@ def get_storage_used(user):
 @app.route('/upload', methods=['POST'])
 def upload_file():
     # Check if the request form contains credentials
-    if("username" not in request.form or "password" not in request.form):
-        return render_template('errors/401.html'), 401
+    if(not current_user.is_authenticated): 
+        if("username" not in request.form or "password" not in request.form):
+            return render_template('errors/401.html'), 401
 
-    # Get credentials
-    username = request.form['username']
-    password = request.form['password']
+        # Get credentials
+        username = request.form['username']
+        password = request.form['password']
 
-    # Query to database
-    user = User.query.filter_by(username=username).first()
-    # Check if user exists and if correct password
-    if user is None or not user.check_password(password):
-        return render_template('errors/401.html'), 401
-    # Check if the request contain a file named file
+        # Query to database
+        user = User.query.filter_by(username=username).first()
+        # Check if user exists and if correct password
+        if user is None or not user.check_password(password):
+            return render_template('errors/401.html'), 401
+        # Check if the request contain a file named file
+    else:
+        user = current_user
+
+    print(request.files)
+    print(request.files['file'])
     if 'file' not in request.files:
         flash('No file part')
-        # TODO REMOVE
-        return 'test1'
-
+        return render_template('errors/400.html'), 400
+    
     # Get file
     file = request.files['file']
+    
 
     # If file is empty
     if file.filename == '':
         flash('No selected file')
         # TODO REMOVE
-        return 'test2'
+        return render_template('errors/400.html'), 400
     # Save file, get uuid filename, get size and save the info in the database
     # Before redirecting them to the image
     if file and allowed_file(file.filename):
@@ -254,6 +260,7 @@ def upload_file():
         db.session.commit()
         #Redirect to link to the newly uploaded file
         return redirect(url_for('get_image',filename=new_filename))
+    return render_template('errors/400.html'), 400
 
 # Routing for images
 @app.route('/<filename>')

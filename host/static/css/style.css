@@ -471,6 +471,12 @@ html, body {
 #dashboard-upload-file-list {
     display: grid;
     grid-template-columns: 100%;
+    grid-row-gap: 5px;
+    grid-column-gap: 5px;
+}
+
+#dashboard-upload-file-list div {
+    padding: 5px;
 }
 
 #dashboard-upload-file-upload-input {
