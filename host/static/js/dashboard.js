@@ -76,16 +76,16 @@ window.onload = function() {
 		  }
 		});
 		getStorageSpace.then((storage_space) => {
-			storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]/Math.pow(1024,2)]
 			let graphColor
 			let graphLabel
 			let text
-			console.log(storage_space[1])
 			if(storage_space[1] != null) {
+				storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]/Math.pow(1024,2)]
 				graphColor  = ["#b224ef", "#cccccc"]
 				graphLabel = ['Used Storage Space', 'Unused Storage Space']
 				text = (storage_space[0]/(storage_space[1]+storage_space[0])*100).toFixed(2) + "%"
 			} else {
+				storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]]
 				graphColor = ["#b224ef"]
 				graphLabel = ['Used Storage Space']
 				text = "N/A"

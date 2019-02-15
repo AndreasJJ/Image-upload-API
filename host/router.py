@@ -39,6 +39,11 @@ def dashboard_links():
         links.append(link.url)
     return render_template('dashboard/links.html', page="Images", username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png", links=links)
 
+@app.route('/dashboard/upload')
+@login_required
+def dashboard_upload():
+    return render_template('dashboard/upload.html', page="Upload", username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png")
+
 # Login routing
 @app.route('/login', methods=['GET', 'POST'])
 def login():

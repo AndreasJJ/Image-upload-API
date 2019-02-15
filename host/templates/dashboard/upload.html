@@ -1,0 +1,23 @@
+{% extends "dashboard/dashboard-base.html" %}
+
+{% block content %}
+    <div id="dashboard-upload-wrapper">
+    	<div id="dashboard-upload-content">
+    		<div id="dashboard-upload-file-upload-wrapper">
+    			<span id="dashboard-upload-file-upload-header">File Upload</span>
+    			<div id="dashboard-upload-file-upload">
+    				<label for="dashboard-upload-file-upload-input">
+					    <i class="fas fa-file-upload"></i><span id="dashboard-upload-file-upload-text">Add files</span>
+					</label>
+					<input id="dashboard-upload-file-upload-input" type="file" accept="image/*" multiple />
+					<span id="dashboard-upload-file-upload-text-extension">or drop files here</span>
+    			</div>
+    		</div>
+    		<div id="dashboard-upload-file-list-wrapper">
+    			<div id="dashboard-upload-file-list">
+    			</div>
+    		</div>
+    	</div>
+	</div>
+	<script type="text/javascript" src="/static/js/dashboard-upload.js"></script>
+{% endblock %}

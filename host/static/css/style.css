@@ -148,9 +148,9 @@ html, body {
 	padding-top: 90px;
 }
 
-/*******************/
-/*     Dashboard   */
-/*******************/
+/************************/
+/*     Dashboard Base   */
+/************************/
 #dashboard-wrapper {
     width: 100%;
     height: 100%;
@@ -288,15 +288,44 @@ html, body {
     font-size: large;
 }
 
-.content {
-    padding: 25px; 
-    box-sizing: content-box;
-    height: -webkit-fill-available;
-    justify-content: center;
+/*****************************/
+/*     Dashboard Overview    */
+/*****************************/
+
+#dashboard-overview-wrapper {
+    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
-#links-content {
+#dashboard-overview-content {
+    width: 80%;
+    height: 80%;
+    min-width: 500px;
+    min-height: 300px;
+    background-color: #ffffff;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/**************************/
+/*     Dashboard Links    */
+/**************************/
+
+#dashboard-links-wrapper {
+    padding: 5px;
+    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
+}
+
+#dashboard-links-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
     justify-content: space-evenly;
@@ -304,7 +333,7 @@ html, body {
     padding-top: 5px;
 }
 
-#links-content img {
+#dashboard-links-content img {
     object-fit: cover;
     max-width: 100%;
     min-width: 100%;
@@ -312,11 +341,85 @@ html, body {
     height: 100%;
     padding: 5px;
     box-sizing: border-box;
-    border: 1px #e6e6e6 solid;
-    border-left: 1px #e6e6e6 solid;
-    border-bottom: 1px #e6e6e6 solid;
+    background-color: white;
 }
-#links-thumbnail {
+#dashboard-links-thumbnail {
     width: 200px;
     height: 200px;
+}
+
+/***************************/
+/*     Dashboard Upload    */
+/***************************/
+
+#dashboard-upload-wrapper {
+    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: scroll;
+}
+
+#dashboard-upload-content {
+    width: 80%;
+    height: 80%;
+    min-width: 500px;
+    min-height: 300px;
+    background-color: #ffffff;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 40% 60%;
+
+}
+
+#dashboard-upload-file-upload-wrapper {
+    padding: 20px;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#dashboard-upload-file-upload-header {
+    color: #94a0b3;
+    margin-bottom: 5px; 
+}
+
+#dashboard-upload-file-upload {
+    max-height: 100%;
+    height: 100%;
+    box-sizing: content-box;
+    border: 2px #e6e6e6 solid;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#dashboard-upload-file-list-wrapper {
+    padding: 20px;
+    overflow: scroll;
+}
+
+#dashboard-upload-file-list {
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+#dashboard-upload-file-upload-input {
+    display: none;
+}
+
+#dashboard-upload-file-upload-text {
+    margin-left: 5px;
+    color: #1291ff;
+}
+
+#dashboard-upload-file-upload-text-extension {
+    margin-left: 5px;
 }

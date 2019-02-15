@@ -1,11 +1,13 @@
 {% extends "dashboard/dashboard-base.html" %}
 
 {% block content %}
-    <div id="links-content">
+<div id="dashboard-links-wrapper">
+    <div id="dashboard-links-content">
     	{% for link in links %}
-    	<div id="links-thumbnail">
+    	<div id="dashboard-links-thumbnail">
     		<a href="{{ url_for('get_image', filename=link) }}"><img src="{{ url_for('get_image', filename=link) }}" /></a>
     	</div>
     	{% endfor %}
 	</div>
+</div>
 {% endblock %}

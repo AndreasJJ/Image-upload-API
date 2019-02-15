@@ -30,6 +30,11 @@
                     {% else %}
                       <li><a href="{{ url_for('dashboard_links') }}">Images</a></li>
                     {% endif %}
+                    {% if page == "Upload" %}
+                      <li class="side-nav-active"><a href="{{ url_for('dashboard_upload') }}">Upload</a></li>
+                    {% else %}
+                      <li><a href="{{ url_for('dashboard_upload') }}">Upload</a></li>
+                    {% endif %}
                   </ul>
                 </div>
               </div>
