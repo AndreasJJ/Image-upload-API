@@ -36,9 +36,9 @@ def dashboard():
 @login_required
 def dashboard_links():
     links = []
-    for link in current_user.links:
+    for link in current_user.links.limit(20):
         links.append(link.url)
-    return render_template('dashboard/links.html', page="Images", username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png", links=links)
+    return render_template('dashboard/links.html', page="Images", links=links, username=current_user.username , profile_picture="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/2000px-Solid_white.svg.png")
 
 @app.route('/dashboard/upload')
 @login_required
@@ -165,10 +165,34 @@ def api():
         if(data == "storage_used"):
             return json.dumps({'used': get_storage_used(current_user)})
         if(data == "links"):
-            links = []
-            for _link in current_user.links:
-                links.append(_link.url)
-            return json.dumps({'links': links})
+            start = request.args.get('start');
+            end = request.args.get('end');
+            if(not start):
+                start = 0
+            # Handle not giving an end
+            if(not end):
+                try:
+                    start = int(start)
+                except Exception as e:
+                    return render_template('errors/400.html'), 400
+                _links = current_user.links.offset(start).all()
+                links = []
+                for _link in range(start, len(_links)):
+                    links.append(_links[_link].url)
+                return json.dumps({'links': links})
+            else:
+                try:
+                    start = int(start)
+                    end = int(end)
+                except Exception as e:
+                    return render_template('errors/400.html'), 400
+                _links = current_user.links.limit(end).offset(start).all()
+                links = []
+                if(end > len(_links)):
+                    end = len(_links)
+                for _link in range(start,end):
+                    links.append(_links[_link].url)
+                return json.dumps({'links': links})
     # API POST request
     if request.method == 'POST':
         operation = request.args.get('operation');
