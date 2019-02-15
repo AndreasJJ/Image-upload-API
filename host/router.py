@@ -197,7 +197,6 @@ def get_storage_used(user):
     size = 0
     for _link in user.links:
         size += _link.size
-    print(size)
     return size
 
 # Upload API for uploading images or videos
