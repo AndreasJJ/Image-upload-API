@@ -203,6 +203,7 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: scroll;
+    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
 }
 
 #dashboard-side-menu-grid {
@@ -307,7 +308,6 @@ html, body {
 /*****************************/
 
 #dashboard-overview-wrapper {
-    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -381,12 +381,12 @@ html, body {
 
 #dashboard-links-images-wrapper {
     padding: 5px;
-    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
 }
 
 #dashboard-links-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-rows: auto;
     justify-content: space-evenly;
     grid-row-gap: 5px;
     padding-top: 5px;
@@ -416,7 +416,6 @@ html, body {
 /***************************/
 
 #dashboard-upload-wrapper {
-    background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
     width: 100%;
     height: 100%;
     display: flex;
