@@ -90,9 +90,13 @@ Source: https://www.digitalocean.com/community/tutorials/how-to-serve-flask-appl
 ![Desktop Dashboard links](https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Desktop-5.png)
 ### Dashboard links No Side Menu
 ![Desktop Dashboard links no side menu](https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Desktop-6.png)
+### Dashboard Upload
+![Desktop Dashboard links no side menu](https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Desktop-7.png)
+### Dashboard Upload No Side Menu
+![Desktop Dashboard links no side menu](https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Desktop-8.png)
 
 ## Phone (Iphone 6/7/8)
 ### Login and Register
 <img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-1.png" width="300" /> <img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-2.png" width="300" />
-### Dashboard Overview and Links
-<img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-3.png" width="300" /><img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-4.png" width="300" />
+### Dashboard Overview, Links and Upload
+<img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-3.png" width="300" /><img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-4.png" width="300" /><img src="https://raw.githubusercontent.com/andreasjj/ShareX-Custom-Uploader/master/readme/Phone-5.png" width="300" />
