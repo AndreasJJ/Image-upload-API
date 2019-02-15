@@ -6,8 +6,8 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import uuid, os, re, json
 from host import app, db
-from host.models import User, link
-from sqlalchemy.sql import func
+from host.models import User
+from host.models import link
 
 # @description Allowed file extensions and function to check, for the file upload.
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'mp4', 'webm'])
@@ -153,24 +153,46 @@ def get_form_validation_error(username, password, confirm_password):
     return None
 
 # API for getting various information about the user.
-@app.route('/api', methods=['GET'])
+@app.route('/api', methods=['GET', 'POST'])
 @login_required
 def api():
-    data = request.args.get('data');
-    if(data is None):
-        return render_template('errors/400.html'), 400
-    if(data == "storage_unused"):
-        return json.dumps({'unused': current_user.storage_space })
-    if(data == "storage_used"):
-        size = 0
-        for link in current_user.links:
-            size += link.size
-        return json.dumps({'used': size})
-    if(data == "links"):
-        links = []
-        for link in current_user.links:
-            links.append(link.url)
-        return json.dumps({'links': links})
+    # API GET request
+    if request.method == 'GET':
+        data = request.args.get('data');
+        if(data == "storage_unused"):
+            return json.dumps({'unused': current_user.storage_space })
+        if(data == "storage_used"):
+            size = 0
+            for _link in current_user.links:
+                size += _link.size
+            return json.dumps({'used': size})
+        if(data == "links"):
+            links = []
+            for _link in current_user.links:
+                links.append(_link.url)
+            return json.dumps({'links': links})
+    # API POST request
+    if request.method == 'POST':
+        operation = request.args.get('operation');
+        # If delete request
+        if(operation == "delete"):
+            # Get the links from the request as json
+            filenames = request.get_json()
+            # Check if the requester is the owner of the links
+            try:
+                owned_links_obj = link.query.filter_by(user_id = current_user.id).filter(link.url.in_(filenames)).all()
+                owned_links = []
+                for _link in owned_links_obj:
+                    owned_links.append(_link.url)
+                # Delete the links from the database
+                link.query.filter(link.url.in_(owned_links)).delete(synchronize_session='fetch')
+                db.session.commit()
+                # Delete the links from the os file system
+                for _link in owned_links:
+                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], _link))
+                    return "Deleted", 200
+            except exc.IntegrityError:
+                session.rollback()
     return render_template('errors/400.html'), 400
 
 # Upload API for uploading images or videos
@@ -218,7 +240,7 @@ def upload_file():
         db.session.commit()
         #Redirect to link to the newly uploaded file
         return redirect(url_for('get_image',filename=new_filename))
-    
+
 # Routing for images
 @app.route('/<filename>')
 def get_image(filename):

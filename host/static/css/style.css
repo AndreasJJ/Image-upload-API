@@ -335,6 +335,51 @@ html, body {
 /**************************/
 
 #dashboard-links-wrapper {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 50px calc(100% - 50px);
+}
+
+#dashboard-links-edit-menu {
+    border-right: 1px #e6e6e6 solid;
+    border-left: 1px #e6e6e6 solid;
+    border-bottom: 1px #e6e6e6 solid;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.select-button {
+    background-color: #4CAF50;
+}
+
+.delete-button {
+    background-color: #f44336;
+}
+
+#dashboard-links-edit-menu button {
+    padding: 10px 18px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    transition: transform 0.5s;
+}
+
+#dashboard-links-edit-menu button:hover {
+  transform: scale(0.95);
+}
+
+#dashboard-links-edit-menu button:disabled {
+    background-color: #cccccc;
+    transform: none;
+}
+
+#dashboard-links-images-wrapper {
     padding: 5px;
     background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
 }
@@ -357,9 +402,13 @@ html, body {
     box-sizing: border-box;
     background-color: white;
 }
-#dashboard-links-thumbnail {
+.dashboard-links-thumbnail {
     width: 200px;
     height: 200px;
+}
+
+.dashboard-links-image-selected {
+    opacity: 0.5;
 }
 
 /***************************/

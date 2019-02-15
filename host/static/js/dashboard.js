@@ -64,62 +64,54 @@ window.onload = function() {
   	let ctx = document.getElementById("myChart");
 	if(ctx) {
 		ctx = ctx.getContext('2d')
-		var getStorageSpace = new Promise(function(resolve, reject) {
-		  let used_storage_space = getUsedStorageSpaceRequest()
-		  let unused_storage_space = getUnusedStorageSpaceRequest();
-		  let storage_space = [used_storage_space, unused_storage_space] 
-		  if (used_storage_space != null) {
-		    resolve(storage_space);
-		  }
-		  else {
-		    reject(Error("Didnt get valid storage_space"));
-		  }
-		});
-		getStorageSpace.then((storage_space) => {
-			let graphColor
-			let graphLabel
-			let text
-			if(storage_space[1] != null) {
-				storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]/Math.pow(1024,2)]
-				graphColor  = ["#b224ef", "#cccccc"]
-				graphLabel = ['Used Storage Space', 'Unused Storage Space']
-				text = (storage_space[0]/(storage_space[1]+storage_space[0])*100).toFixed(2) + "%"
-			} else {
-				storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]]
-				graphColor = ["#b224ef"]
-				graphLabel = ['Used Storage Space']
-				text = "N/A"
-			}
-			var myDoughnutChart = new Chart(ctx, {
-			    type: 'doughnut',
-			    data: {
-					    datasets: [{
-					        data: storage_space,
-					        backgroundColor: graphColor
-					    }],
+		let used_storage_space = getUsedStorageSpaceRequest().then((used) => {
+			let unused_storage_space = getUnusedStorageSpaceRequest().then((unused) => {
+				let storage_space = [used.used, unused.unused] 
+				let graphColor
+				let graphLabel
+				let text
+				if(storage_space[1] != null) {
+					storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]/Math.pow(1024,2)]
+					graphColor  = ["#b224ef", "#cccccc"]
+					graphLabel = ['Used Storage Space', 'Unused Storage Space']
+					text = (storage_space[0]/(storage_space[1]+storage_space[0])*100).toFixed(2) + "%"
+				} else {
+					storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]]
+					graphColor = ["#b224ef"]
+					graphLabel = ['Used Storage Space']
+					text = "N/A"
+				}
+				var myDoughnutChart = new Chart(ctx, {
+				    type: 'doughnut',
+				    data: {
+						    datasets: [{
+						        data: storage_space,
+						        backgroundColor: graphColor
+						    }],
 
-					    // These labels appear in the legend and in the tooltips when hovering different arcs
-					    labels: graphLabel
-					},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					tooltips: {
-					    callbacks: {
-					      label: (item, data) => `${data.datasets[item.datasetIndex].data[item.index].toFixed(2)} MB`,
+						    // These labels appear in the legend and in the tooltips when hovering different arcs
+						    labels: graphLabel
+						},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						tooltips: {
+						    callbacks: {
+						      label: (item, data) => `${data.datasets[item.datasetIndex].data[item.index].toFixed(2)} MB`,
 
-					    }
-					},
-					elements: {
-						center: {
-							text: text,
-							color: '#36A2EB', //Default black
-							fontStyle: 'Helvetica', //Default Arial
-							sidePadding: 15 //Default 20 (as a percentage)
+						    }
+						},
+						elements: {
+							center: {
+								text: text,
+								color: '#36A2EB', //Default black
+								fontStyle: 'Helvetica', //Default Arial
+								sidePadding: 15 //Default 20 (as a percentage)
+							}
 						}
 					}
-				}
-			});
+				});
+			})
 		}).catch((e) => {
 			var myDoughnutChart = new Chart(ctx, {
 			    type: 'doughnut',
@@ -154,16 +146,30 @@ function onClickLogoutButton() {
 
 // Get used storage space from server
 function getUsedStorageSpaceRequest() {
-	var request = new XMLHttpRequest()
-	request.open('GET', '/api?data=storage_used', false)
-	request.send(null)
-	return JSON.parse(request.response).used
+	return fetch("/api?data=storage_used", {
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        referrer: "no-referrer",
+        body: null,
+    }).then(response => response.json());
 }
 
 // Get unused storage space from server
 function getUnusedStorageSpaceRequest() {
-	var request = new XMLHttpRequest()
-	request.open('GET', '/api?data=storage_unused', false)
-	request.send(null)
-	return JSON.parse(request.response).unused
+	return fetch("/api?data=storage_unused", {
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        referrer: "no-referrer",
+        body: null,
+    }).then(response => response.json());
 }

@@ -2,12 +2,19 @@
 
 {% block content %}
 <div id="dashboard-links-wrapper">
-    <div id="dashboard-links-content">
-    	{% for link in links %}
-    	<div id="dashboard-links-thumbnail">
-    		<a href="{{ url_for('get_image', filename=link) }}"><img src="{{ url_for('get_image', filename=link) }}" /></a>
-    	</div>
-    	{% endfor %}
+	<div id="dashboard-links-edit-menu">
+		<button class="select-button" id="dashboard-links-select-button">Select images</button>
+		<button class="delete-button" id="dashboard-links-delete-button" disabled>Delete</button>
+	</div>
+	<div id="dashboard-links-images-wrapper">
+	    <div id="dashboard-links-content">
+	    	{% for link in links %}
+	    	<div class="dashboard-links-thumbnail">
+	    		<a href="{{ url_for('get_image', filename=link) }}"><img src="{{ url_for('get_image', filename=link) }}" /></a>
+	    	</div>
+	    	{% endfor %}
+		</div>
 	</div>
 </div>
+<script type="text/javascript" src="/static/js/dashboard-links.js"></script>
 {% endblock %}
