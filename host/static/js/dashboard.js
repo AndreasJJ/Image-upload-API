@@ -64,22 +64,28 @@ window.onload = function() {
   	let ctx = document.getElementById("myChart");
 	if(ctx) {
 		ctx = ctx.getContext('2d')
-		let used_storage_space = getUsedStorageSpaceRequest().then((used) => {
-			let unused_storage_space = getUnusedStorageSpaceRequest().then((unused) => {
-				let storage_space = [used.used, unused.unused] 
+		getUsedStorageSpaceRequest().then((used) => {
+			getStorageSpaceRequest().then((_storage_space) => {
+				let unused_space = _storage_space.storage_space - used.used
+				let storage_space = [used.used, unused_space] 
 				let graphColor
 				let graphLabel
 				let text
-				if(storage_space[1] != null) {
+				if(unused_space < 0) {
+					text = (storage_space[0]/(_storage_space.storage_space)*100).toFixed(2) + "%"
+					storage_space = [storage_space[0]/Math.pow(1024,2), 0]
+					graphColor  = ["#b224ef", "#cccccc"]
+					graphLabel = ['Used Storage Space', 'Unused Storage Space']
+				} else if(storage_space[1] != null) {
+					text = (storage_space[0]/(_storage_space.storage_space)*100).toFixed(2) + "%"
 					storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]/Math.pow(1024,2)]
 					graphColor  = ["#b224ef", "#cccccc"]
 					graphLabel = ['Used Storage Space', 'Unused Storage Space']
-					text = (storage_space[0]/(storage_space[1]+storage_space[0])*100).toFixed(2) + "%"
 				} else {
+					text = "N/A"
 					storage_space = [storage_space[0]/Math.pow(1024,2), storage_space[1]]
 					graphColor = ["#b224ef"]
 					graphLabel = ['Used Storage Space']
-					text = "N/A"
 				}
 				var myDoughnutChart = new Chart(ctx, {
 				    type: 'doughnut',
@@ -160,8 +166,8 @@ function getUsedStorageSpaceRequest() {
 }
 
 // Get unused storage space from server
-function getUnusedStorageSpaceRequest() {
-	return fetch("/api?data=storage_unused", {
+function getStorageSpaceRequest() {
+	return fetch("/api?data=storage_space", {
         method: "GET",
         mode: "cors",
         cache: "no-cache",

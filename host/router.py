@@ -5,6 +5,7 @@ from flask import render_template, request, flash, redirect, url_for, send_from_
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import uuid, os, re, json
+from shutil import move
 from host import app, db
 from host.models import User
 from host.models import link
@@ -159,13 +160,10 @@ def api():
     # API GET request
     if request.method == 'GET':
         data = request.args.get('data');
-        if(data == "storage_unused"):
-            return json.dumps({'unused': current_user.storage_space })
+        if(data == "storage_space"):
+            return json.dumps({'storage_space': current_user.storage_space })
         if(data == "storage_used"):
-            size = 0
-            for _link in current_user.links:
-                size += _link.size
-            return json.dumps({'used': size})
+            return json.dumps({'used': get_storage_used(current_user)})
         if(data == "links"):
             links = []
             for _link in current_user.links:
@@ -194,6 +192,13 @@ def api():
             except exc.IntegrityError:
                 session.rollback()
     return render_template('errors/400.html'), 400
+
+def get_storage_used(user):
+    size = 0
+    for _link in user.links:
+        size += _link.size
+    print(size)
+    return size
 
 # Upload API for uploading images or videos
 @app.route('/upload', methods=['POST'])
@@ -228,11 +233,21 @@ def upload_file():
     # Save file, get uuid filename, get size and save the info in the database
     # Before redirecting them to the image
     if file and allowed_file(file.filename):
-        #Get the new filename
+        storage = get_storage_used(user)
+        if(user.storage_space <= storage):
+            return render_template('errors/507.html'), 507
+
         new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
+        temp_size = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename)).st_size
+
+        if(user.storage_space < storage + temp_size):
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
+            return render_template('errors/507.html'), 507
+
+        move(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename), os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+
         #Save the file
-    
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
         size = os.stat(os.path.join(app.config['UPLOAD_FOLDER'],new_filename)).st_size
         #Save link in 
         new_link = link(url=new_filename, user_id=user.id, size=size)
