@@ -155,15 +155,24 @@ def get_form_validation_error(username, password, confirm_password):
 
 # API for getting various information about the user.
 @app.route('/api', methods=['GET', 'POST'])
-@login_required
 def api():
+    if(current_user.is_authenticated):
+        user = current_user
+    elif("username" in request.form or "password" in request.form):
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user is None or not user.check_password(password):
+            return render_template('errors/401.html'), 401
+    else:
+        return render_template('errors/401.html'), 401
     # API GET request
     if request.method == 'GET':
         data = request.args.get('data');
         if(data == "storage_space"):
-            return json.dumps({'storage_space': current_user.storage_space })
+            return json.dumps({'storage_space': user.storage_space })
         if(data == "storage_used"):
-            return json.dumps({'used': get_storage_used(current_user)})
+            return json.dumps({'used': get_storage_used(user)})
         if(data == "links"):
             start = request.args.get('start');
             end = request.args.get('end');
@@ -175,7 +184,7 @@ def api():
                     start = int(start)
                 except Exception as e:
                     return render_template('errors/400.html'), 400
-                _links = current_user.links.offset(start).all()
+                _links = user.links.offset(start).all()
                 links = []
                 for _link in range(start, len(_links)):
                     links.append(_links[_link].url)
@@ -186,7 +195,7 @@ def api():
                     end = int(end)
                 except Exception as e:
                     return render_template('errors/400.html'), 400
-                _links = current_user.links.limit(end).offset(start).all()
+                _links = user.links.limit(end).offset(start).all()
                 links = []
                 if(end > len(_links)):
                     end = len(_links)
@@ -202,7 +211,7 @@ def api():
             filenames = request.get_json()
             # Check if the requester is the owner of the links
             try:
-                owned_links_obj = link.query.filter_by(user_id = current_user.id).filter(link.url.in_(filenames)).all()
+                owned_links_obj = link.query.filter_by(user_id = user.id).filter(link.url.in_(filenames)).all()
                 owned_links = []
                 for _link in owned_links_obj:
                     owned_links.append(_link.url)

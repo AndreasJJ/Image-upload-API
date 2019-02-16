@@ -351,6 +351,10 @@ html, body {
     padding: 5px;
 }
 
+.load-button {
+    background-color: #008CBA;
+}
+
 .select-button {
     background-color: #4CAF50;
 }

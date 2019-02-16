@@ -19,6 +19,15 @@ function selectImage(e) {
 	} 
 }
 
+document.getElementById("dashboard-links-load-images-button").addEventListener('click', () => {
+	loadImages().then(() => {
+		if (document.getElementById("dashboard-content").scrollHeight != document.getElementById("dashboard-content").clientHeight) {
+			document.getElementById("dashboard-links-load-images-button").style.display = "none"
+		}
+	})
+})
+
+
 document.getElementById("dashboard-links-select-button").addEventListener('click', selectImages)
 function selectImages(e) {
 	let images = document.getElementsByClassName("dashboard-links-thumbnail")
@@ -64,27 +73,30 @@ function deleteImages(e) {
 }
 
 document.getElementById("dashboard-content").addEventListener('scroll', (e) => {
-
 	if(e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
-		let imageCount = document.getElementById("dashboard-links-content").children.length
-		let amountOfNewImages = 20
-		let newImages = getNewImages(imageCount, imageCount+amountOfNewImages).then((response) => {
-			for (var i = 0; i < response.links.length; i++) {
-				let imagesContainer = document.getElementById("dashboard-links-content")
-				let thumbnailContainer = document.createElement("DIV")
-				thumbnailContainer.classList.add("dashboard-links-thumbnail")
-				let thumbnailLink = document.createElement("A")
-				thumbnailLink.href = "/" + response.links[i]
-				let image = document.createElement("IMG")	
-				image.src = "/" + response.links[i]
-				thumbnailLink.appendChild(image)
-				thumbnailContainer.appendChild(thumbnailLink)
-				imagesContainer.appendChild(thumbnailContainer)
-			}
-		})
-	}
+		loadImages()
+	} 
 	setEventListenerOnImages()
 })
+
+function loadImages() {
+	let imageCount = document.getElementById("dashboard-links-content").children.length
+	let amountOfNewImages = 20
+	return newImages = getNewImages(imageCount, imageCount+amountOfNewImages).then((response) => {
+		for (var i = 0; i < response.links.length; i++) {
+			let imagesContainer = document.getElementById("dashboard-links-content")
+			let thumbnailContainer = document.createElement("DIV")
+			thumbnailContainer.classList.add("dashboard-links-thumbnail")
+			let thumbnailLink = document.createElement("A")
+			thumbnailLink.href = "/" + response.links[i]
+			let image = document.createElement("IMG")	
+			image.src = "/" + response.links[i]
+			thumbnailLink.appendChild(image)
+			thumbnailContainer.appendChild(thumbnailLink)
+			imagesContainer.appendChild(thumbnailContainer)
+		}
+	})
+}
 
 function getNewImages(start, end){
 	link = "/api?data=links&start=" + start + "&end=" + end
