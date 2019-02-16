@@ -180,27 +180,27 @@ def api():
                 start = 0
             # Handle not giving an end
             if(not end):
+                print("test1")
                 try:
                     start = int(start)
                 except Exception as e:
                     return render_template('errors/400.html'), 400
                 _links = user.links.offset(start).all()
                 links = []
-                for _link in range(start, len(_links)):
-                    links.append(_links[_link].url)
+                for _link in _links:
+                    links.append(_link.url)
                 return json.dumps({'links': links})
             else:
+                print("test2")
                 try:
                     start = int(start)
                     end = int(end)
                 except Exception as e:
                     return render_template('errors/400.html'), 400
-                _links = user.links.limit(end).offset(start).all()
+                _links = user.links.limit(end-start).offset(start).all()
                 links = []
-                if(end > len(_links)):
-                    end = len(_links)
-                for _link in range(start,end):
-                    links.append(_links[_link].url)
+                for _link in _links:
+                    links.append(_link.url)
                 return json.dumps({'links': links})
     # API POST request
     if request.method == 'POST':
@@ -220,8 +220,11 @@ def api():
                 db.session.commit()
                 # Delete the links from the os file system
                 for _link in owned_links:
-                    os.remove(os.path.join(app.config['UPLOAD_FOLDER'], _link))
-                    return "Deleted", 200
+                    try:
+                        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], _link))
+                    except Exception as e:
+                        print("TODO ADD ERRO HANDLER")        
+                return "Deleted", 200
             except exc.IntegrityError:
                 session.rollback()
     return render_template('errors/400.html'), 400
@@ -253,8 +256,6 @@ def upload_file():
     else:
         user = current_user
 
-    print(request.files)
-    print(request.files['file'])
     if 'file' not in request.files:
         flash('No file part')
         return render_template('errors/400.html'), 400
