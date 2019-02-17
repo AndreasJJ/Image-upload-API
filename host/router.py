@@ -4,7 +4,7 @@
 from flask import render_template, request, flash, redirect, url_for, send_from_directory, g
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.utils import secure_filename
-import uuid, os, re, json
+import uuid, os, re, json, shortuuid
 from shutil import move
 from host import app, db
 from host.models import User
@@ -276,7 +276,7 @@ def upload_file():
         if(user.storage_space <= storage):
             return render_template('errors/507.html'), 507
 
-        new_filename = str(uuid.uuid4().hex) + str(os.path.splitext(secure_filename(file.filename))[1]);
+        new_filename = str(shortuuid.uuid()) + str(os.path.splitext(secure_filename(file.filename))[1]);
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
         temp_size = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename)).st_size
 
