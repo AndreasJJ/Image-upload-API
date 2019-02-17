@@ -1,5 +1,5 @@
 # Sharex Custom Uploader
-A web application for fileupload specifically for shareX. The API lets you upload files, get your current storage usage, get your allowed storage space, delete files, and get all your links. All of the API functions can also be used through the GUI.
+A web application for fileupload specifically for shareX. The API lets you upload files, get your current storage usage, get your allowed storage usage, delete files, and get all your links. All of the API functions can also be used through the GUI.
 
 # Motivation
 
