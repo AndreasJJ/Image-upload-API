@@ -280,10 +280,11 @@ def upload_file():
         new_filename = str(shortuuid.uuid()) + str(os.path.splitext(secure_filename(file.filename))[1]);
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
         temp_size = os.stat(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename)).st_size
-
-        if(user.storage_space < storage + temp_size):
-            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
-            return render_template('errors/507.html'), 507
+        
+        if(user.storage_space is not None):
+            if(user.storage_space < storage + temp_size):
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
+                return render_template('errors/507.html'), 507
 
         move(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename), os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
 
