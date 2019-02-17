@@ -1,4 +1,4 @@
 Read the Wiki for the 
-* Database Information
 * Installation Guide
+* Database Information
 * Web User Interface Design
