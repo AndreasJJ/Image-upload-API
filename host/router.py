@@ -273,8 +273,9 @@ def upload_file():
     # Before redirecting them to the image
     if file and allowed_file(file.filename):
         storage = get_storage_used(user)
-        if(user.storage_space <= storage):
-            return render_template('errors/507.html'), 507
+        if(user.storage_space is not None):
+            if(user.storage_space <= storage):
+                return render_template('errors/507.html'), 507
 
         new_filename = str(shortuuid.uuid()) + str(os.path.splitext(secure_filename(file.filename))[1]);
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'tmp', new_filename))
