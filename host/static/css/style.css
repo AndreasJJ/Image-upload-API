@@ -202,7 +202,7 @@ html, body {
     grid-row-end: 3;
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow: auto;
     background: -webkit-linear-gradient(300deg, #a179ff, #abeeff);
 }
 
@@ -425,7 +425,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: scroll;
+    overflow: auto;
 }
 
 #dashboard-upload-content {
@@ -469,7 +469,7 @@ html, body {
 
 #dashboard-upload-file-list-wrapper {
     padding: 20px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 #dashboard-upload-file-list {
