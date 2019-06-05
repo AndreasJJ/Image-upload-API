@@ -21,7 +21,9 @@ migrate = Migrate(app, db)
 
 # @description Login manager initialization
 login = LoginManager(app)
-login.login_view = 'login'
+login.login_view = 'login.login'
 
 # @description importing the router and database models
-from host import router, models
+from host.router import router
+from host import models
+

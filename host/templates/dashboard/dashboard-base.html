@@ -21,19 +21,19 @@
                 <div id="dashboard-side-nav">
                   <ul>
                     {% if page == "Home" %}
-                      <li class="side-nav-active"><a href="{{ url_for('dashboard') }}">Home</a></li>
+                      <li class="side-nav-active"><a href="{{ url_for('dashboard.dashboard_index') }}">Home</a></li>
                     {% else %}
-                      <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard_index') }}">Home</a></li>
                     {% endif %}
                     {% if page == "Images" %}
-                      <li class="side-nav-active"><a href="{{ url_for('dashboard_links') }}">Images</a></li>
+                      <li class="side-nav-active"><a href="{{ url_for('dashboard.dashboard_links') }}">Images</a></li>
                     {% else %}
-                      <li><a href="{{ url_for('dashboard_links') }}">Images</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard_links') }}">Images</a></li>
                     {% endif %}
                     {% if page == "Upload" %}
-                      <li class="side-nav-active"><a href="{{ url_for('dashboard_upload') }}">Upload</a></li>
+                      <li class="side-nav-active"><a href="{{ url_for('dashboard.dashboard_upload') }}">Upload</a></li>
                     {% else %}
-                      <li><a href="{{ url_for('dashboard_upload') }}">Upload</a></li>
+                      <li><a href="{{ url_for('dashboard.dashboard_upload') }}">Upload</a></li>
                     {% endif %}
                   </ul>
                 </div>

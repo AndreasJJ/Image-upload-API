@@ -11,7 +11,7 @@
 	    <div id="dashboard-links-content">
 	    	{% for link in links %}
 	    	<div class="dashboard-links-thumbnail">
-	    		<a href="{{ url_for('get_image', filename=link) }}"><img src="{{ url_for('get_image', filename=link) }}" /></a>
+	    		<a href="{{ url_for('get_file.get_image', filename=link) }}"><img src="{{ url_for('get_file.get_image', filename=link) }}" /></a>
 	    	</div>
 	    	{% endfor %}
 		</div>
