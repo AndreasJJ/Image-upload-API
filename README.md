@@ -20,7 +20,7 @@ Screenshots can be found on [the wiki](https://github.com/AndreasJJ/ShareX-Custo
 
 Flask is our application framework, on which our whole application is running. We also use three modules with it to get additional functionality for login, sql ORM and database migration. We also use a shortuuid for shorter uuid for the file links.
 
-**Deployment technologies:**
+**Deployment technologies:** \
 Use my docker container boilerplate for flask applications with https, which can be found [here](https://github.com/AndreasJJ/Flask-https-docker-container-boilerplate) or check out the official flask documentation on how to deploy flask applications.
 
 # Installation Guide
