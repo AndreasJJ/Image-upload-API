@@ -23,11 +23,10 @@ Flask is our application framework, on which our whole application is running. W
 **Deployment technologies:** \
 Use my docker container boilerplate for flask applications with https, which can be found [here](https://github.com/AndreasJJ/Flask-https-docker-container-boilerplate) or check out the official flask documentation on how to deploy flask applications.
 
-# Installation Guide
-Read [the wiki]() for the installation guide
-
-# How to use?
-The user's manual can be found at [the wiki]()
+# Setup Guide
+1. Download [my docker boilerplate](https://github.com/AndreasJJ/Flask-https-docker-container-boilerplate) for Flask applications on a server preferably running ubuntu 18.04 that has docker and docker-compose installed. 
+2. Delete the application folder from the docker boilerplate and move the "host" folder from this repo to where you downloaded the docker boilerplate.
+3. Replace "from application import app" with "from host import app" in the wsgi.py file from the docker boilerplate.
 
 # Contribute
 When contributing to this repository, please first discuss the change you wish to make via issue,
