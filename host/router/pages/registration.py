@@ -3,6 +3,7 @@ from host import db
 from host.models import User
 from flask_login import current_user
 import re
+from sqlalchemy import exc
 
 registration_blueprint = Blueprint('registration', __name__, template_folder='../../templates')
 
